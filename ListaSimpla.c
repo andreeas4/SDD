@@ -27,7 +27,7 @@ nodLS* initializareNod(carte c)
 	strcpy(nou->info.titlu, c.titlu);
 	nou->info.nrPreturi = c.nrPreturi;
 	nou->info.vectPreturi = (float*)malloc(nou->info.nrPreturi * sizeof(float));
-	for (int i = 0;i < c.nrPreturi;i++)
+	for (int i = 0; i < c.nrPreturi; i++)
 		nou->info.vectPreturi[i] = c.vectPreturi[i];
 	nou->next = NULL;
 	return nou;
@@ -35,8 +35,8 @@ nodLS* initializareNod(carte c)
 
 nodLS* inserareNod1(nodLS* capLS, carte c)
 {
-	nodLS* nou = initializareNod(c); 
-	if (capLS == NULL) capLS = nou; 
+	nodLS* nou = initializareNod(c);
+	if (capLS == NULL) capLS = nou;
 	else
 	{
 		//acces secvential
@@ -69,7 +69,7 @@ void traversareLista(nodLS* capLS)
 	while (temp != NULL) //nu temp->next!=NULL deoarece ultimul nod nenul ar ramane neparcurs
 	{
 		printf("\nCod = %d, Titlu = %s, Nr preturi = %d", temp->info.cod, temp->info.titlu, temp->info.nrPreturi);
-		for (int i = 0;i < temp->info.nrPreturi;i++)
+		for (int i = 0; i < temp->info.nrPreturi; i++)
 			printf(" Pret = %5.2f", temp->info.vectPreturi[i]);
 		temp = temp->next;
 	}
@@ -87,6 +87,20 @@ void dezalocareLista(nodLS* capLS)
 		temp = aux;
 	}
 }
+void salvareCartiVector(nodLS* capLS, carte* vect, int* nrElem, int prag)
+{
+	nodLS* temp = capLS;
+	while (temp != NULL)
+	{
+		if (temp->info.nrPreturi >= prag)
+		{
+			vect[*nrElem] = temp->info;
+			(*nrElem)++;
+		}
+		temp = temp->next;
+
+	}
+}
 
 void main()
 {
@@ -96,15 +110,15 @@ void main()
 	char buffer[20];
 	FILE* f = fopen("fisier.txt", "r");
 	fscanf(f, "%d", &nrCarti);
-	for (int i = 0;i < nrCarti;i++)
+	for (int i = 0; i < nrCarti; i++)
 	{
-		fscanf(f, "%d", & c.cod);
+		fscanf(f, "%d", &c.cod);
 		fscanf(f, "%s", buffer);
 		c.titlu = (char*)malloc((strlen(buffer) + 1) * sizeof(char));
 		strcpy(c.titlu, buffer);
 		fscanf(f, "%d", &c.nrPreturi);
 		c.vectPreturi = (float*)malloc(c.nrPreturi * sizeof(float));
-		for (int i = 0;i < c.nrPreturi;i++)
+		for (int i = 0; i < c.nrPreturi; i++)
 			fscanf(f, "%f", &c.vectPreturi[i]);
 		capLS = inserareNod1(capLS, c);
 		free(c.titlu);
@@ -112,5 +126,17 @@ void main()
 	}
 	fclose(f);
 	traversareLista(capLS);
+	printf("\n-------Vector------\n");
+	carte* vect = (carte*)malloc(nrCarti * sizeof(carte));
+	int nrElem = 0;
+	salvareCartiVector(capLS, vect, &nrElem, 3);
+	for (int i = 0; i < nrElem; i++)
+	{
+		printf("\nCod = %d, Titlu = %s, Nr preturi = %d", vect[i].cod, vect[i].titlu, vect[i].nrPreturi);
+		for (int j = 0; j < vect[i].nrPreturi; j++)
+			printf(" Pret = %5.2f", vect[i].vectPreturi[j]);
+	}
+	free(vect);
 	dezalocareLista(capLS);
+
 }
