@@ -7,6 +7,7 @@
 //se formeaza clustere -dezavantaj
 //cautarea la stanga nu trebuie sa fie necesara si nici redimensionarea tabelei-avantaj
 //quadratic probing (pozitia+c*i) la patrat -i= de cate ori am apelat functia hush
+//lista dubla de studenti si apoi sa se verifice daca este simetrica
 //-----------------------------------TABELA LINEAR PROBING---------------------------------------------
 #include<stdio.h>
 #include<malloc.h>
