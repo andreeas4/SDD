@@ -77,6 +77,34 @@ void dezalocareHash(hashT tabela)
 	free(tabela.vect);
 
 }
+int stergereHash(hashT tabela ,int codDeSters)
+{
+	int poz = functieHash(tabela, codDeSters);
+	if (tabela.vect[poz] == NULL)
+		return -1;
+	else
+		if(tabela.vect[poz]->cod==codDeSters)
+		{
+			free(tabela.vect[poz]->nume);
+			tabela.vect[poz]=NULL;
+			free(tabela.vect);
+		}
+		else {
+			int index = 1;
+			while (poz + index < tabela.nrElem)
+			{
+				if (tabela.vect[poz + index]->cod == codDeSters)
+				{
+					poz += index;
+					free(tabela.vect[poz]->nume);
+					tabela.vect[poz]=NULL;
+					free(tabela.vect);
+				}
+			}
+		}
+	return poz;
+
+ }
 
 void main()
 {
