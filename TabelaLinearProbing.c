@@ -106,6 +106,24 @@ int stergereHash(hashT tabela ,int codDeSters)
 	return poz;
 
  }
+student** intre7Si9(hashT tabela,int nrStud)
+{    
+	student** studentiEligibili = NULL;
+	
+	for (int i = 0; i < tabela.nrElem; i++)
+	{
+		if (tabela.vect[i]->medie > 7 && tabela.vect[i]->medie < 9)
+			nrStud++;
+	}
+	studentiEligibili = (student**)malloc(nrStud * sizeof(student*));
+	for (int i = 0; i < tabela.nrElem; i++)
+	{
+		if (tabela.vect[i]->medie > 7 && tabela.vect[i]->medie < 9)
+			studentiEligibili[i] = tabela.vect[i];
+	}
+	return studentiEligibili;
+
+}
 
 void main()
 {
@@ -130,8 +148,22 @@ void main()
 
 	}
 
+
+	int nrStud1 = 0;
+
+student** studentiEligibili;
+studentiEligibili=intre7Si9(tabela,nrStud);
+
+printf("\n%d", nrStud1);
+for (int i = 0; i < nrStud1; i++)
+{
+	printf("\n pozitie = %d", i);
+	printf("\nCod = %d, Nume = %s, Medie = %5.2f", studentiEligibili[i]->cod, studentiEligibili[i]->nume, studentiEligibili[i]->medie);
+
+}
 	fclose(f);
 
+	
 	traversareHash(tabela);
 	dezalocareHash(tabela);
 }
